@@ -1,5 +1,3 @@
-
-
 function App() {
   return (
     <p>Olá mundo</p>
@@ -7,4 +5,3 @@ function App() {
 }
 
 export default App;
-
