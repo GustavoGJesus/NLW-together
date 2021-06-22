@@ -1,7 +1,8 @@
-function App() {
-  return (
-    <p>Olá mundo</p>
-    );
-}
+import { Home } from '../src/pages/Home';
 
+function App() {
+  return(
+    <Home />
+  )
+};
 export default App;
