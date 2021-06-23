@@ -1,17 +1,40 @@
-import { useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import { FormEvent } from 'react'
 
 import illustrationImg from '../assets/illustration.svg'
 import logoImg from '../assets/logo.svg'
 
 import '../styles/auth.scss'
 import { Button } from '../components/Button'
+import { useState } from 'react'
+import { Console } from 'console'
+import { UseAuth } from '../hooks/useAuth'
 
-import { TestContext } from '../App'
+import { database } from '../service/firebase'
+import userEvent from '@testing-library/user-event'
 
 export function NewRoom(){
-    const {value, setValue} = useContext(TestContext)
+    const { user } =  UseAuth()
+    const history = useHistory()
+    const [newRoom, setNewRoom] = useState('')
     
+    async function handleCreateRoom(event: FormEvent){
+        event.preventDefault();
+
+        if (newRoom.trim() === ''){
+            return;
+        }
+
+        const roomRef = database.ref('rooms');
+
+        const firebaseRoom = await roomRef.push({
+            title: newRoom,
+            authorId: user?.id,
+        })
+
+        history.push(`/rooms/${firebaseRoom.key}`)
+    }
+
     return(
         <div id="page-auth">
             <aside>
@@ -20,14 +43,16 @@ export function NewRoom(){
                 <p>Tire as dúvidas da sua audiência em tempo-real</p>
             </aside>
             <main>
-                <h1>{value}</h1>
+               
                 <div className="main-content">
                     <img src={logoImg} alt="Letmeask" />
                     <h2>Criar uma nova sala</h2>
-                    <form>
+                    <form onSubmit={handleCreateRoom}>
                         <input 
                             type="text" 
                             placeholder="Nome da sala"
+                            onChange={event => setNewRoom(event.target.value)}
+                            value={newRoom}
                             />
                         <Button type="submit">
                             Criar sala
@@ -40,9 +65,4 @@ export function NewRoom(){
             </main>
         </div>
     );
-}
-/*export function NewRoom(){
-    return(
-
-    );
-}*/
+};
