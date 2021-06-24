@@ -7,11 +7,11 @@ import logoImg from '../assets/logo.svg'
 import '../styles/auth.scss'
 import { Button } from '../components/Button'
 import { useState } from 'react'
-import { Console } from 'console'
+//import { Console } from 'console'
 import { UseAuth } from '../hooks/useAuth'
 
 import { database } from '../service/firebase'
-import userEvent from '@testing-library/user-event'
+//import userEvent from '@testing-library/user-event'
 
 export function NewRoom(){
     const { user } =  UseAuth()
